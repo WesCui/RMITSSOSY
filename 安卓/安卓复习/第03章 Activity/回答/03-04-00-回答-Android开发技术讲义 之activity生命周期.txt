@@ -1,0 +1,20 @@
+﻿1. 一个activity的生命周期中有几种状态？哪几种是稳定状态？这几种稳定状态下，用户可以同它们交互吗？每种状态之间的切换需要调用哪些回调方法？哪些回调方法是比较关键的方法？
+答：有created、started、resumed、paused、stopped、destroyed七种状态，resumed、paused、stopped为稳定状态，Resumed 在这种状态下，用户可以和它进行交互，有时候也叫“running”状态，Paused 这种状态下，该activity被其他activity部分遮盖，这时该activity不会接收用户的输入也不会执行任何代码，Stopped 这种状态下，activity完全隐藏，处于后台，这是activity实例和它的所有信息都保持着，但不能执行任何代码
+
+2. 启动activity到resumed稳定状态会经过几个回调方法？
+答：会经过onCreate、onStart、onResumed三个回调方法
+3. activity从resumed状态到Destroyed状态会经过几个回调方法？
+在进入暂停状态时会执行哪个回调方法？在该方法中会做哪些操作？为什么需要做这些操作？
+答：会经过onPaused、onStop、onDestroy；进入暂停状态会执行onPaused方法，可能会做下面的操作：
+	停止动画或其他可能消耗CPU的动作
+	提交未保存的改变，但只有用户确实希望保存的才保存（如email草稿）
+	释放系统资源，诸如广播接收器，对传感器的操作及任何可能影响电池用量而用户不再需要的资源。在onPause()方法中应该执行尽量简单的操作。目的是为了cpu让给前台程序。
+
+4. 从暂停状态回到resumed状态，会执行哪个回调方法，在该方法中会做哪些操作？
+答：系统调用onResume()方法，在该方法中应该初始化那些你在onPause()中释放的组件，以及其它每次进入Resumed状态都应该初始化的（比如开始动画等）
+5. 在activity从resumed状态到stopped状态的时候，需要执行哪些回调方法？在onStop中执行的操作同在onPause方法中有什么区别？
+答：会执行onPaused、onStop方法，使用onStop()来执行更大更多的CPU的关闭操作，诸如向数据库写数据
+6. 在从stopped状态回到resumed状态时，恢复资源的操作最好在哪个回调方法中做？为什么？
+答：因为在onStop()方法中应该清理了所有的activity资源，你需要在activity重启的时候重新实例化它们。另外，在activity被第一次创建的时候也需要实例化这些资源。基于这种原因，应该使用onStart()作为onStop()的对应方法。
+7. 什么情况下，你的activity可能被销毁？在销毁前在哪个回调方法中可以保存activity的状态？在重建activity的时候会执行哪个回调方法并恢复activity的状态？
+答：有些情况下你的activity会被销毁，比如用户按了back按钮，或者调用了finish()方法，也或者你的activity长时间没有用，也或者系统需要关闭一些后台进程来回收内存；为了保存activity状态的附加数据，你必须重写onSaveInstanceState()回调方法。当用户离开你的activity时，系统调用这个方法并传递一个Bundle对象，如果系统必须重建该activity实例的时候，会把同一个Bundle对象传递给onRestoreInstanceState()和onCreate()方法。

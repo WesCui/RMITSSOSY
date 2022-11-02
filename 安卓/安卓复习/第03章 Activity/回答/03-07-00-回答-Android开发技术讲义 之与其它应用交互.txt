@@ -1,0 +1,21 @@
+1. 分别在同一个app中的activity中相互切换和调用其他app中的activity的时候，分别采用什么样的intent？
+答：同一个app中的activity相互切换和调用通常使用显式intent，调用其他app中的activity使用隐式intent
+
+2. 如何验证系统中有没有相应的activity来响应intent？
+答：if (sendIntent.resolveActivity(getPackageManager()) != null) {
+    startActivity(sendIntent);
+}
+
+3. 如何强行打开app选择器？
+答：Intent chooser = Intent.createChooser(intent, title);
+
+if (intent.resolveActivity(getPackageManager()) != null) {
+    startActivity(chooser);
+}
+
+4. 对于需要返回结果的启动activity用哪个启动方法？有了返回结果，调用activity怎么接收返回结果
+答：startActivityForResult()；通过onActivityResult()回调方法来接收结果
+5. 为什么在activity的manifest文件中加入intent-filter元素？
+答：用于匹配系统中的隐式intent
+6. 如何从activity中返回结果？
+答：可以简单的调用setResult()来指定结果编码和结果Intent。当你的操作完成以后，以后应该返回到原来的那个activity，调用finish()来关闭你的activity

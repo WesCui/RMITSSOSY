@@ -1,0 +1,20 @@
+1. 什么是activity？
+答：一个Activity为一个app组件，为用户提供可交互的一个窗口，通常该窗口充满一屏，但有时比一屏小，并浮在其他窗口上。
+2. 一个app中若干activity之间是紧密耦合在一起的吗？
+答：不是，activity之间是松散的联系在一起的
+3. 一个新启动的activity是保留在哪里？
+答：当一个新的Activity启动的时候，该Activity会被推入back栈的栈顶，并呈现给用户。Back栈也遵守栈的一般规则，既是LiFo，因此，当用户结束当前的Activity并按下返回按钮的时候，该Activity就会从栈中弹出（并销毁），前一个Activity被再次激活。
+4. 什么是生命周期？
+答：声明周期就是android中组件从创建到销毁的过程
+5. 在一个activity中必须实现的是哪个回调方法？
+答：onCreate()，你必须实现该方法，系统在创建你的Activity的时候会调用它。在该方法的实现中，你应该为你的Activity初始化必要的组件。
+6. 如何把一个布局文件应用到一个activity？
+答：调用setContentView()方法来定义Activity的布局
+7. 一个定义好的activity还应该在哪个文件中声明一下？不声明会怎么样？
+答：还要在manifest文件中声明一下，不声明，android系统会无法启动该activity
+8. 在manifest文件中为什么要配置一下intent过滤器？
+答：在<activity>中使用<intent-filter>可以指定各种intent过滤器，过滤器的作用就是声明其他app组件是如何激活该activity的。
+9. 是通过什么对activity启动的？
+答：activity都是通过intent来启动
+10. 可以通过哪个方法来关闭一个activity？
+答：可以使用finish()方法或者finishActivity (int requestCode)来关闭一个activity，但是我们不建议这么做，因为activity有其生命周期，系统会对activity的生命周期进行管理。

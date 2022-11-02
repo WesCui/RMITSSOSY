@@ -1,0 +1,44 @@
+﻿1. intent是什么？需要被启动activity返回结果的启动是哪个方法？不需要返回结果的是哪个方法？intent主要用在哪些场景？
+答：一个Intent是一个消息对象，你可以使用该对象请求另外的app组件的动作。如果当activity结束的时候你要接收结果，则你需要使用startActivityForResult()。不需要返回结果用startActivity()。主要用intent来启动activity、service、broadcast
+
+2. 显式意图同隐式意图的主要区别在哪里？这两种不同的意图，系统是如何启动被启动的组件的？
+答：显式intent通过使用名字来指定要启动的组件（类的全称）。隐式intent不会指定特定的组件，而是声明执行某种动作，这允许其他app中的组件来处理。当你创建了一个显式的intent来启动一个activity或者service的时候，系统立即启动在Intent对象中指定的app组件。
+当你创建了一个隐式的intent，android系统通过比较设备中app的manifest文件中对intent filter的声明内容，找到合适的组件来启动。如果该intent匹配了intent filter，系统会启动该组件并把intent对象提交给它。如果多个intent filter是兼容的，系统显示一个对话框来让用户来选择使用哪个app。
+
+3. 保存在intent中的主要信息有哪些？什么是action？action在代码中和在manifest中的意图过滤器中的表述有何不同？action必须是系统定义好的吗？自己可以定义action吗？
+答：保存在intent中的主要信息有组件名、action、data、category、extras、flag等；action是一个用于指定某种要执行动作的字符串；在代码中使用Intent类中或其他框架类中定义的action常量，在manifest中使用该常量的值，即是一个字符串；action不必是系统定义好的，自己也可以定义action
+
+4. 什么是URI？设置URI和设置MIME分别用什么方法？如果同时设置URI及MIME呢？
+答：URI为Uniform Resource Identifiler的首字母，用于标识某一个互联网资源名称的字符串；如果只是设置数据URI，调用setData()，如果只是设置MIME类型，调用setType()。如果必须的话，你可以使用setDataAndType()两个同时设置。
+
+5. 在Intent中附加信息，可以怎么做（两种方式）？
+答：可以使用putExtra()方法来添加extra数据，每个方法接收两个参数，键和值。你也可以创建一个Bundle对象来添加所有的extra数据，然后将Bundle使用putExtras()插入Intent。
+
+6. 当使用隐式意图进行activity的启动的时候，如果没有哪个activity能够对相应意图进行响应的时候，我们的代码应该怎么处理？
+答：我们用如下的语句进行判断：
+if (sendIntent.resolveActivity(getPackageManager()) != null) {
+    startActivity(sendIntent);
+}
+
+7. 通常app选择器是什么时候打开的？如何强制打开app选择器？
+答：当有多个app可以对你的隐式的intent来反应的时候，用户会选择使用哪个app并让该app成为该action的默认选择。
+Intent chooser = Intent.createChooser(sendIntent, title);
+
+// Verify the original intent will resolve to at least one activity
+if (sendIntent.resolveActivity(getPackageManager()) != null) {
+    startActivity(chooser);
+}
+
+8. 如何使得一个组件能够响应某类action？一个组件能不能处理多种intent？怎么做？同一个意图过滤器中可以有哪几种标签？每种标签可以有几个？
+答：为了让系统知道你的app可以接收哪些隐式的Intent，在你的manifest文件中使用<intent-filter>元素来为你的app声明一个以上的intent过滤器。一个app可以为它所能做的每个唯一的工作定义一个过滤器。在一个filter中可以包含多个<action>,<data>或<category>实例
+
+9. 表达某个activity为主activity的意图过滤器怎么定义？
+答：<action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUCHER"/>
+
+
+10. 系统是如何匹配隐式意图的？
+答：当系统接收到启动activity的隐式intent的时候，系统会通过比较intent的filter的下面三方面内容，来找到最适合的activity：
+	意图action
+	意图data（URI及数据类型）
+	意图category

@@ -1,0 +1,17 @@
+﻿1. activity有几种启动模式？它配置在哪个标签的哪个属性中？
+答：Activity一共有以下四种launchMode：
+	standard
+	singleTop
+	singleTask
+	singleInstance
+我们可以在AndroidManifest.xml配置<activity>的android:launchMode属性为以上四种之一即可
+
+2. standard模式怎么启动activity？同一个task栈可以有几个相同activity的实例？
+答：standard模式是默认的启动模式，不用为<activity>配置android:launchMode属性即可，当然也可以指定值为standard。同一个task栈中可以有若干相同activity的实例
+3. singleTop模式启动的activity在同一个task栈中可以有几个相同activity的实例？栈顶可以有几个相同activity的实例？
+答：可以有多个，但是栈顶只能有一个activity的实例
+4. singleTask模式启动的activity在同一个task栈中可以有几个相同的activity的实例？该实例能在栈的哪个位置？
+答：只能有一个，可在栈的任何位置
+5. singleInstance模式启动的activity所在的task栈中可以有几个相同的activity的实例？在同一个task栈中还可以有其他activity的实例吗？
+
+答：这种启动模式比较特殊，因为它会启用一个新的栈结构，将Acitvity放置于这个新的栈结构中，并保证不再有其他Activity实例进入

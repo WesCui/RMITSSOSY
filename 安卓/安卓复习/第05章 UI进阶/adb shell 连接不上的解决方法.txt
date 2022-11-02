@@ -1,0 +1,4 @@
+在执行adb shell的时候，如果出现下面的提示信息：
+adb server version (32) doesn't match this client (36).....
+这样的信息，
+打开genymotion，settings -->adb选择使用“Use custom Android SDK tools"选择系统中的android sdk

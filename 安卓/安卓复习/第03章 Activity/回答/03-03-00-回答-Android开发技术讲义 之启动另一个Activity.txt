@@ -1,0 +1,48 @@
+﻿1. 什么是回调方法？
+答：回调方法就是在系统发生某种事件的时候，系统所调用的方法
+2. 如何创建第二个activity？
+答：1.	在java目录中，选择包com.mycompany.myfirstapp，右击，选择New > Activity > Blank Activity
+2.	在Choose options窗口中，填入下面信息：
+	Activity Name：DisplayMessageActivity
+	Layout Name：activity_display_message
+	Package name：com.mycompany.myfirstapp
+点击Finish
+
+3. 怎么设置按钮的单击回调方法？该方法在哪里定义？该方法有哪些形式上的要求？
+答：在布局文件中的<Button>元素中添加android:onClick属性，该属性的值设置为回答方法的方法名，该回调方法在相应的activity类中定义，该方法必须满足：
+	是public
+	返回值为void
+	有且仅有一个View作为参数
+
+4. android中activity的启动都是通过什么启动的？
+答：都是通过intent启动的
+5. 通过什么来启动第二个activity？
+答：通过intent启动第二个activity
+6. intent构造方法中的两个参数什么含义？
+答：显式调用的intent的构造方法用到了两个参数：
+	Context作为第一个参数（这里是this，因为Activity是Context的子类）
+	第二个参数为系统发送Intent的目标，为某应用组件的Class
+
+7. 快速引入类的快捷键是什么？
+答：按快捷键Alt + Enter（mac中为option + return）来引入类
+8. 如何取出输入到EditText中的文本数据？取出的数据类型是什么？
+答：EditText editText = (EditText) findViewById(R.id.edit_message);
+  String message = editText.getText().toString();
+  通过上面的语句取出的内容为字符串
+9. 什么是键值对？
+答：由键（key）来标识值（value）的这样的一一映射关系，通过键可以取到相应的值
+10. 如何给intent附加需要传递的数据？
+答：intent.putExtra(EXTRA_MESSAGE, message);
+11. 如何快速定义一个已使用的常量？
+答：定位到相应的常量，由android studio自动创建
+12. 如何启动第二个activity？
+答：通过调用startActivity()来启动其他的activity，该方法的参数为Intent，该Intent描述启动哪个activity。在intent中或者精确指定某个activity，或者是哪一类activity，在intent中还可以存放少量的数据传递给被启动activity。
+
+有时候，你需要被启动的activity要反馈回结果，此时，被启动的activity是通过startActivityForResult()来启动。获取反馈结果是通过实现onActivityResult()回调方法来实现的。被启动的activity在执行完毕以后会将结果放在一个Intent中，返回给onActivityResult()方法。
+
+13. 是不是在第二个activity中必须用TextView取代默认的布局文件？如是，为什么？若不是，视频中示例程序可以怎么改？
+答：不是，依然可以静态设置activity的布局
+14. 如何在第二个被启动的activity中获取启动它的intent对象？
+答：Intent intent = getIntent();
+15. 怎么取出第一个activity传递过来的数据？如何再显示在屏幕上？
+答：String message = intent.getStringExtra(MyActivity.EXTRA_MESSAGE);方法中的参数就是键值对中的键

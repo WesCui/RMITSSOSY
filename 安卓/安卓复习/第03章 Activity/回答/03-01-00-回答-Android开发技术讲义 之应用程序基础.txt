@@ -1,0 +1,41 @@
+﻿1. android应用被编译成什么文件？
+答：Android sdk把你的数据、资源以及代码编译成apk文件
+2. 什么是安全沙盒？
+答：一旦安装在设备上，每个android app运行在它自己的安全沙盒中：
+	Android系统是一个多用户Linux系统，其中的每个app都是一个不同的用户；
+	默认情况下，系统赋给每个app一个唯一的Linux用户ID（该ID只由系统使用，app是不知道的）。系统会设置一个app中的所有文件的权限，因此只有相应用户ID的app才可以存取它们。
+	每个进程有它自己的VM，每个app的运行都是同其他的app相隔离的。
+	默认情况下，每个app以它自己的Linux的进程运行。当app中的任何组件需要运行的时候，android会启动该进程，当不再需要的时候或者系统需要恢复内存的时候，系统会关闭该进程。
+
+以这种方式，android系统实现了“principal of least privilege（最小权限原则）”。也就是说，默认情况下，每个app只能存取它需要存取的组件。这就是创建了一个非常安全的环境，使得app不经过授权是不能使用系统的其他部分的。
+
+3. android有哪些组件？简单了解
+答：Activity、service、content provider broadcast provider
+
+4. 一个android应用能否启动其他应用中的组件？
+答：通过intent可以启动其他应用中的组件
+
+5. intent是什么？分为哪两种？哪三种组件通过intent激活？
+答：intent定义了一个激活某种组件或者某类组件的消息，可定义intent为显式、隐式，activity、service、broadcast receiver可以通过intent激活
+
+6. AndroidManifest.xml文件的功能是什么？
+答：在android系统能启动一个app组件之前，系统必须通过读取app的AndroidManifest.xml文件知道组件的存在。Manifest文件除了声明app的组件以外，它还有其他很多事情要做：
+	标示app所需的用户权限，比如Internet的存取或者用户联系方式的读取
+	声明app的最低API级别
+	声明app所使用的硬件和软件特征，比如：照相机、蓝牙服务或者多点触屏。
+	App所需的API库（不是android框架API）
+
+7. 四种组件在manifest文件中是什么标签？除了哪个组件，其他组件必须在该文件中声明？
+答：	<activity>声明activity
+	<service>声明service
+	<receiver>声明broadcast receiver
+	<provider>声明content provider
+除了broadcast receiver既可以在manifest中声明，也可以在代码中动态创建（作为BroadcastReceiver 对象）并且通过调用registerReceiver()注册
+8. intent-filter是什么标签？有什么用？
+答：当你在你的app manifest文件中声明了一个activity的时候，你可以选择在activity中包含intent filter来声明activity的功能，这样它就可以对其他app的意图进行反应。这是通过在你的组件中添加一个<intent-filter>元素来实现的。
+9. 如何声明你的app需要使用的系统需求？
+答：在mainfest文件中用<uses-feature>标签声明需要的资源
+10. 什么是系统资源？
+答：一个android app不只是由代码组成，它还需要一些代码之外的资源，比如图片、声音文件及其他相关的可视化资源。比如，你可以定义动画、菜单、样式、颜色及通过XML文件所定义的activity的布局。使用app资源使得可以更新你的app的特征而不需要修改代码，并且可以提供各种可以互换的资源集合，使得你可以对于不同的设备配置优化你的app（比如不同的语言和屏幕大小）
+
+对于你的android工程中的每个资源，SDK build工具定义了唯一的整数ID，通过该ID，你可以通过你的app代码或XML定义来引用该资源。
